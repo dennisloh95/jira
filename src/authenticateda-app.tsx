@@ -3,7 +3,7 @@ import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
@@ -13,7 +13,6 @@ export const AuthenticatedApp = () => {
       <Header between={true}>
         <HeaderLeft gap={true}>
           <SoftwareLogo width={"18rem"} color={`rgb(38,132,255)`} />
-          <h2>Logo</h2>
           <h2>Tasks</h2>
           <h2>User</h2>
         </HeaderLeft>
@@ -22,12 +21,16 @@ export const AuthenticatedApp = () => {
             overlay={
               <Menu>
                 <Menu.Item key={"logout"}>
-                  <a onClick={logout}>Logout</a>
+                  <Button type={"link"} onClick={logout}>
+                    Logout
+                  </Button>
                 </Menu.Item>
               </Menu>
             }
           >
-            <a onClick={(e) => e.preventDefault()}>Hi, {user?.name}</a>
+            <Button type={"link"} onClick={(e) => e.preventDefault()}>
+              Hi, {user?.name}
+            </Button>
           </Dropdown>
         </HeaderRight>
       </Header>

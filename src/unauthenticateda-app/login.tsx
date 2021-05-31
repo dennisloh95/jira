@@ -1,14 +1,27 @@
 import { useAuth } from "context/auth-context";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { LongButton } from "unauthenticateda-app";
+import { useAsync } from "utils/use-async";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+export const LoginScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
+  const { login } = useAuth();
 
-export const LoginScreen = () => {
-  const { login, user } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await run(login(values));
+    } catch (e) {
+      console.log("e", e);
+      onError(e);
+    }
   };
 
   return (
@@ -24,10 +37,15 @@ export const LoginScreen = () => {
         name={"password"}
         rules={[{ required: true, message: "Please enter password" }]}
       >
-        <Input placeholder={"password"} type="password" id={"password"} />
+        <Input
+          placeholder={"password"}
+          type="password"
+          id={"password"}
+          autoComplete={"on"}
+        />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={"submit"} type={"primary"}>
+        <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>
           登录
         </LongButton>
       </Form.Item>
