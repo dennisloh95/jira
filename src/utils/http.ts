@@ -12,7 +12,6 @@ export const http = async (
   endpoint: string,
   { data, token, headers, ...customConfig }: Config = {}
 ) => {
-  console.log(token);
   const config = {
     method: "GET",
     headers: {
