@@ -1,3 +1,4 @@
+import { Table } from "antd";
 import { User } from "./search-panel";
 
 interface Project {
@@ -14,6 +15,30 @@ interface ListProps {
 }
 
 export const List = ({ list, users }: ListProps) => {
+  return (
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "Name",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "Person in Charge",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
+  );
+
   return (
     <table>
       <thead>
