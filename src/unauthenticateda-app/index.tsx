@@ -15,6 +15,13 @@ export const UnauthenticatedApp = () => {
     <Container>
       <Header />
       <Background />
+      <Button
+        onClick={() => {
+          throw new Error("click to throw error");
+        }}
+      >
+        Throw Error
+      </Button>
       <ShadowCard>
         <Title>{isRegister ? "Please Register" : "Please Login"}</Title>
         {error ? (
