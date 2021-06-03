@@ -6,22 +6,18 @@ import styled from "@emotion/styled";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
+import { useDocumentTitle } from "utils";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  useDocumentTitle("Please login to continue", false);
+
   return (
     <Container>
       <Header />
       <Background />
-      <Button
-        onClick={() => {
-          throw new Error("click to throw error");
-        }}
-      >
-        Throw Error
-      </Button>
       <ShadowCard>
         <Title>{isRegister ? "Please Register" : "Please Login"}</Title>
         {error ? (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import { useDebounce } from "utils";
+import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "utils/project";
@@ -17,6 +17,8 @@ export const ProjectListScreen = () => {
 
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
+
+  useDocumentTitle("Task List", false);
 
   return (
     <Container>
