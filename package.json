@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@types/qs": "^6.9.6",
+    "@welldone-software/why-did-you-render": "^6.1.4",
     "husky": "^6.0.0",
     "json-server": "^0.16.3"
   },
