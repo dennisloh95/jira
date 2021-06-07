@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<D> {
   error: Error | null;
@@ -25,6 +26,8 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   });
+
+  const mountedRef = useMountedRef();
 
   const [retry, setRetry] = useState(() => () => {});
 
@@ -57,8 +60,10 @@ export const useAsync = <D>(
     setState({ ...state, state: "loading" });
     return promise
       .then((data) => {
-        setData(data);
-        return data;
+        if (mountedRef.current) {
+          setData(data);
+          return data;
+        }
       })
       .catch((error) => {
         // catch will remove error, if not manually throw, outside cannot receive error
