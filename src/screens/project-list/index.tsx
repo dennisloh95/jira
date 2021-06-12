@@ -7,11 +7,9 @@ import { Button, Row, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
-import { useProjectSearchParam } from "./util";
+import { useProjectModal, useProjectSearchParam } from "./util";
 
-export const ProjectListScreen = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+export const ProjectListScreen = () => {
   useDocumentTitle("Task List", false);
   // const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
   const [param, setParam] = useProjectSearchParam();
@@ -24,20 +22,20 @@ export const ProjectListScreen = (props: {
   } = useProjects(useDebounce(param, 200));
   const { data: users } = useUsers();
 
+  const { open } = useProjectModal();
+
   return (
     <Container>
       <Row justify={"space-between"}>
         <h1>Tasks List</h1>
-        <Button onClick={() => props.setProjectModalOpen(true)}>
-          Add Task
-        </Button>
+        <Button onClick={open}>Add Task</Button>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
       <List
-        setProjectModalOpen={props.setProjectModalOpen}
+        setProjectModalOpen={open}
         refresh={retry}
         loading={isLoading}
         users={users || []}
