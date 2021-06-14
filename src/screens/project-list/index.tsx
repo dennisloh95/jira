@@ -6,20 +6,15 @@ import styled from "@emotion/styled";
 import { Button, Row, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
-import { useUrlQueryParam } from "utils/url";
 import { useProjectModal, useProjectSearchParam } from "./util";
+import { ButtonNoPadding, ErrorBox } from "components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("Task List", false);
   // const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
   const [param, setParam] = useProjectSearchParam();
 
-  const {
-    isLoading,
-    error,
-    data: list,
-    retry,
-  } = useProjects(useDebounce(param, 200));
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
   const { data: users } = useUsers();
 
   const { open } = useProjectModal();
@@ -28,19 +23,13 @@ export const ProjectListScreen = () => {
     <Container>
       <Row justify={"space-between"}>
         <h1>Tasks List</h1>
-        <Button onClick={open}>Add Task</Button>
+        <ButtonNoPadding onClick={open} type={"link"}>
+          Add Task
+        </ButtonNoPadding>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      {error ? (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      ) : null}
-      <List
-        setProjectModalOpen={open}
-        refresh={retry}
-        loading={isLoading}
-        users={users || []}
-        dataSource={list || []}
-      />
+      <ErrorBox error={error} />
+      <List loading={isLoading} users={users || []} dataSource={list || []} />
     </Container>
   );
 };
