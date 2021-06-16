@@ -4,6 +4,7 @@ import { useDashboards } from "utils/dashboard";
 import { DashboardColumn } from "./dashboard-column";
 import { useDashboardSearchparams, useProjectInUrl } from "./util";
 import { SearchPanel } from "screens/dashboard/search-panel";
+import { ScreenContainer } from "components/lib";
 
 export const DashboardScreen = () => {
   useDocumentTitle("Dashboard List");
@@ -12,7 +13,7 @@ export const DashboardScreen = () => {
   const { data: dashboards = [] } = useDashboards(useDashboardSearchparams());
 
   return (
-    <div>
+    <ScreenContainer>
       <h1>{currentProject?.name} Dashboard</h1>
       <SearchPanel />
       <ColumnsContainer>
@@ -20,12 +21,12 @@ export const DashboardScreen = () => {
           <DashboardColumn key={dashboard.id} dashboard={dashboard} />
         ))}
       </ColumnsContainer>
-    </div>
+    </ScreenContainer>
   );
 };
 
 const ColumnsContainer = styled.div`
   display: flex;
-  overflow: hidden;
-  margin-right: 2rem;
+  overflow-x: scroll;
+  flex: 1;
 `;
