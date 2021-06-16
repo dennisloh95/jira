@@ -18,7 +18,7 @@ export const useDashboardSearchparams = () => ({
 });
 
 export const useDashboardsQueryKey = () => [
-  "kanbands",
+  "kanbans",
   useDashboardSearchparams(),
 ];
 

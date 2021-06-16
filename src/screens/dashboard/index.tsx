@@ -23,6 +23,7 @@ export const DashboardScreen = () => {
   );
   const { isLoading: taskIsLoading } = useTasks(useTasksSearchParams());
   const isLoading = taskIsLoading || dashboardIsLoading;
+
   return (
     <ScreenContainer>
       <h1>{currentProject?.name} Dashboard</h1>

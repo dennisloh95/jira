@@ -54,7 +54,7 @@ export const DashboardColumn = ({ dashboard }: { dashboard: Dashboard }) => {
       </Row>
       <TasksContainer>
         {tasks?.map((task) => (
-          <TaskCart task={task} />
+          <TaskCart task={task} key={task.id} />
         ))}
         <CreateTask dashboardId={dashboard.id} />
       </TasksContainer>
