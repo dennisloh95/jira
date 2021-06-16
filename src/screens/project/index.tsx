@@ -7,12 +7,12 @@ export const ProjectScreen = () => {
   return (
     <div>
       <h1>ProjectScreen</h1>
-      <Link to={"dashboard"}>Dashboard</Link>
+      <Link to={"kanban"}>Dashboard</Link>
       <Link to={"project-team"}>Project Team</Link>
       <Routes>
-        <Route path={"/dashboard"} element={<DashboardScreen />} />
+        <Route path={"/kanban"} element={<DashboardScreen />} />
         <Route path={"/project-team"} element={<ProjectTeamScreen />} />
-        <Navigate to={window.location.pathname + "/dashboard"} />
+        <Navigate to={window.location.pathname + "/kanban"} replace={true} />
       </Routes>
     </div>
   );
