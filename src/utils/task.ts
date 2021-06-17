@@ -1,10 +1,12 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Task } from "types/task";
+import { SortProps } from "./dashboard";
 import { useHttp } from "./http";
 import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
+  useReorderTaskConfig,
 } from "./use-optimistic-options";
 
 export const useTasks = (param?: Partial<Task>) => {
@@ -50,5 +52,17 @@ export const useDeleteTask = (queryKey: QueryKey) => {
         method: "DELETE",
       }),
     useDeleteConfig(queryKey)
+  );
+};
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    (params: SortProps) =>
+      client("tasks/reorder", {
+        data: params,
+        method: "POST",
+      }),
+    useReorderTaskConfig(queryKey)
   );
 };

@@ -1,7 +1,11 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Dashboard } from "types/dashboard";
 import { useHttp } from "./http";
-import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useReorderKanbanConfig,
+} from "./use-optimistic-options";
 
 export const useDashboards = (param?: Partial<Dashboard>) => {
   const client = useHttp();
@@ -31,5 +35,28 @@ export const useDeleteDashboard = (queryKey: QueryKey) => {
         method: "DELETE",
       }),
     useDeleteConfig(queryKey)
+  );
+};
+
+export interface SortProps {
+  // item want to reorder
+  fromId: number;
+  // target item
+  referenceId: number;
+  // reoder to target item before or after
+  type: "before" | "after";
+  fromKanbanId?: number;
+  toKanbanId?: number;
+}
+
+export const useReorderDashboard = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    (params: SortProps) =>
+      client("kanbans/reorder", {
+        data: params,
+        method: "POST",
+      }),
+    useReorderKanbanConfig(queryKey)
   );
 };

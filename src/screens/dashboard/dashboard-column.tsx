@@ -15,6 +15,8 @@ import { Task } from "types/task";
 import { Mark } from "components/mark";
 import { useDeleteDashboard } from "utils/dashboard";
 import { Row } from "components/lib";
+import { forwardRef } from "react";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -24,7 +26,7 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   return <img alt="task icon" src={name === "task" ? taskIcon : bugIcon} />;
 };
 
-const TaskCart = ({ task }: { task: Task }) => {
+const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTasksModal();
   const { name: keyword } = useTasksSearchParams();
 
@@ -42,25 +44,40 @@ const TaskCart = ({ task }: { task: Task }) => {
   );
 };
 
-export const DashboardColumn = ({ dashboard }: { dashboard: Dashboard }) => {
+export const DashboardColumn = forwardRef<
+  HTMLDivElement,
+  { dashboard: Dashboard }
+>(({ dashboard, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === dashboard.id);
 
   return (
-    <Container>
+    <Container ref={ref} {...props}>
       <Row between={true}>
         <h3>{dashboard.name}</h3>
-        <More dashboard={dashboard} />
+        <More dashboard={dashboard} key={dashboard.id} />
       </Row>
       <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCart task={task} key={task.id} />
-        ))}
+        <Drop
+          type={"row"}
+          direction={"vertical"}
+          droppableId={String(dashboard.id)}
+        >
+          <DropChild style={{ minHeight: "5px" }}>
+            {tasks?.map((task, index) => (
+              <Drag key={task.id} index={index} draggableId={"task" + task.id}>
+                <div>
+                  <TaskCard task={task} key={task.id} />
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask dashboardId={dashboard.id} />
       </TasksContainer>
     </Container>
   );
-};
+});
 
 const More = ({ dashboard }: { dashboard: Dashboard }) => {
   const { mutateAsync } = useDeleteDashboard(useDashboardsQueryKey());
