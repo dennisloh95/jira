@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 import { DashboardScreen } from "screens/dashboard";
-import { ProjectTeamScreen } from "screens/project-team";
 import styled from "@emotion/styled";
 import { Menu } from "antd";
+import { EpicScreen } from "screens/epic";
 
 const useRouteType = () => {
   const units = useLocation().pathname.split("/");
@@ -27,7 +27,7 @@ export const ProjectScreen = () => {
       <Main>
         <Routes>
           <Route path={"/kanban"} element={<DashboardScreen />} />
-          <Route path={"/project-team"} element={<ProjectTeamScreen />} />
+          <Route path={"/epic"} element={<EpicScreen />} />
           <Navigate to={window.location.pathname + "/kanban"} replace={true} />
         </Routes>
       </Main>
@@ -49,4 +49,5 @@ const Main = styled.div`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
+  width: 100%;
 `;

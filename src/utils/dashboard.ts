@@ -14,7 +14,7 @@ export const useDashboards = (param?: Partial<Dashboard>) => {
   );
 };
 
-export const useAddDasbhoard = (queryKey: QueryKey) => {
+export const useAddDashboard = (queryKey: QueryKey) => {
   const client = useHttp();
 
   return useMutation(

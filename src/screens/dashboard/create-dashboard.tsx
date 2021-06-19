@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAddDasbhoard } from "utils/dashboard";
+import { useAddDashboard } from "utils/dashboard";
 import { useDashboardsQueryKey, useProjectIdInUrl } from "./util";
 import { Input } from "antd";
 import { Container } from "./dashboard-column";
@@ -7,7 +7,7 @@ import { Container } from "./dashboard-column";
 export const CreateDashboard = () => {
   const [name, setName] = useState("");
   const projectId = useProjectIdInUrl();
-  const { mutateAsync: addDashboard } = useAddDasbhoard(
+  const { mutateAsync: addDashboard } = useAddDashboard(
     useDashboardsQueryKey()
   );
   const submit = async () => {
