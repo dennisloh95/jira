@@ -57,11 +57,13 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.0",
     "@types/qs": "^6.9.6",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@welldone-software/why-did-you-render": "^6.1.4",
     "husky": "^6.0.0",
-    "json-server": "^0.16.3"
+    "json-server": "^0.16.3",
+    "msw": "^0.29.0"
   },
   "msw": {
     "workerDirectory": "public"
